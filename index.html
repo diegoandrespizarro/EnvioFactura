@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./img/LOGOS_icono-100x100.png" type="image/x-icon">
+    <title>Envío de Factura</title>
+    <!-- Include SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<body>
+    <img id="logo" src="./img/LOGOS_icono-100x100.png" alt="Logo">
+    <form id="formulario" action="http://localhost/EnvioFacturaPDF/test_rectificando_correos.php" method="post">
+        <button type="submit" id="enviar"style="border-radius: 50px;">Envío de Factura</button>
+    </form>
+
+    <!-- Include SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('formulario').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+
+            // Create a FormData object from the form
+            var formData = new FormData(this);
+
+            // Send the form data using fetch
+            fetch(this.action, {
+
+                method: this.method,
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Show success alert
+                Swal.fire({
+                    title: 'Envío de Factura',
+                    text: data,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            })
+            .catch(error => {
+                // Show error alert
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al enviar la factura.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
